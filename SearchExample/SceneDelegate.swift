@@ -14,7 +14,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let scene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(windowScene: scene)
+        
+        //Debug
+        UserDefaults.standard.set(false, forKey: "isLaunched")
         
         //1. 만약 유저가 처음 앱을 실행했다면
         // UserDefaults - false가 default
@@ -25,8 +29,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if isLaunched == false {
             let sb = UIStoryboard(name: "Main", bundle: nil)
             let vc = sb.instantiateViewController(withIdentifier: "FirstViewController") as! FirstViewController
+            
             window?.rootViewController = vc
+        } else {
+            let sb = UIStoryboard(name: "Main", bundle: nil)
+            let vc = sb.instantiateViewController(withIdentifier: "LibraryCollectionViewController") as! LibraryCollectionViewController
+            let nav = UINavigationController(rootViewController: vc)
+            
+            window?.rootViewController = nav
         }
+        
+        window?.makeKeyAndVisible()
+        
         //3. Library~ 를 첫 화면으로
         
     }
